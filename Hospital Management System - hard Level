@@ -1,0 +1,815 @@
+package hospital_management;
+
+import javax.swing.*; // JComponents
+import java.awt.*; // layouts, events
+import java.awt.event.*;
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
+
+public class Hospital_management implements ActionListener {
+    JFrame jf1, jf2, jf3, jf4, jf5, jf6, jf7, jf8, jf9,jf10,jf11,jf12,jf13,jf14,jf15;
+    JPanel p1, p2, p3, p4, p5, p6, p7, p8, p9,p10,p11,p12,p13,p14,p15;
+    JButton b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15,b16,b17,b18,b19;
+    JButton b20,b21,b22,b23,b24,b25,b26,b27,b28,b29;
+    JLabel l1, l2, l3, l4, l5, l6, l7, l8, l9, l10,l11,l12,l13,l14,l15,l16,l17,l18,l19,l20,l21;
+    JLabel l22,l23,l24,l25,l26,l27,l28,l29;
+    JTextField t1, t2, t3, t4, t5, t6, t7, t8, t9, t10,t11,t12,t13,t14,t15,t16,t17,t18,t19,t20;
+    JTextField t21,t22,t23,t24,t25,t26,t27,t28;
+    JRadioButton rb1, rb2;
+    JTextArea ta1;
+    JTable jt1,jt2,jt3,jt4;
+
+    Connection dbcon = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    String query = null;
+
+    DefaultTableModel model = new DefaultTableModel(new String[]{"First Name", "Last Name", "Address", "Date Of Birth", "Phone", "Health"}, 0);
+    DefaultTableModel model1 = new DefaultTableModel(new String[]{"Doctor", "Visit Type", "Date", "Time", "Status"}, 0);
+    DefaultTableModel model2 = new DefaultTableModel(new String[]{"Name", "Date", "Medicine", "Dosage", "Frequency"}, 0);
+    DefaultTableModel model3 = new DefaultTableModel(new String[]{"Bill No", "Date", "To", "Description", "Qty","Amount"}, 0);
+
+    void home() {
+        jf1 = new JFrame("Home");
+        p1 = new JPanel();
+        b1 = new JButton("Patient Records");
+        b2 = new JButton("Appointment Scheduling");
+        b3 = new JButton("Prescription");
+        b4 = new JButton("Billing");
+        b5 = new JButton("Inventory");
+
+        b1.addActionListener(this);
+        b2.addActionListener(this);
+        b3.addActionListener(this);
+        b4.addActionListener(this);
+        b5.addActionListener(this);
+
+        p1.add(b1);
+        p1.add(b2);
+        p1.add(b3);
+        p1.add(b4);
+        p1.add(b5);
+
+        GridLayout f1 = new GridLayout(3, 3, 40, 40);
+        p1.setLayout(f1);
+        jf1.add(p1);
+        jf1.setSize(500, 400);
+        jf1.setLocation(500, 200);
+        jf1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jf1.setVisible(true);
+    }
+
+    void Patient_Records() {
+        jf2 = new JFrame("Patient Records");
+        p2 = new JPanel();
+
+        b11 = new JButton("View Patient Records ");
+        b11.addActionListener(this);
+        p2.add(b11);
+
+        b12 = new JButton("Add New Patient");
+        b12.addActionListener(this);
+        p2.add(b12);
+
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("img/img2.jpeg"));
+        JLabel image = new JLabel(i1);
+        p2.add(image);
+
+        b6 = new JButton("Back");
+        b6.addActionListener(this);
+        p2.add(b6);
+
+        jf2.add(p2);
+        jf2.setSize(500, 650);
+        jf2.setLocation(500, 60);
+        jf2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf2.setVisible(false);
+    }
+     void Add_Records() {
+        jf8 = new JFrame("Add New Patient");
+        p8 = new JPanel();
+
+        l1 = new JLabel("First Name");
+        t1 = new JTextField(20);
+        p8.add(l1);
+        p8.add(t1);
+
+        l2 = new JLabel("Last Name");
+        t2 = new JTextField(20);
+        p8.add(l2);
+        p8.add(t2);
+
+        l3 = new JLabel("Gender");
+        rb1 = new JRadioButton("Male");
+        rb2 = new JRadioButton("Female");
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(rb1);
+        bg.add(rb2);
+        p8.add(l3);
+        p8.add(rb1);
+        p8.add(rb2);
+
+        l9 = new JLabel(" Address:");
+        ta1 = new JTextArea(5, 20);
+        p8.add(l9);
+        p8.add(new JScrollPane(ta1));
+
+        l4 = new JLabel("Date Of Birth");
+        t4 = new JTextField(20);
+        p8.add(l4);
+        p8.add(t4);
+
+        l5 = new JLabel("Phone");
+        t5 = new JTextField(20);
+        p8.add(l5);
+        p8.add(t5);
+        
+        l6 = new JLabel("bgroup");
+        t6 = new JTextField(20);
+        p8.add(l6);
+        p8.add(t6);
+
+
+        l7 = new JLabel("Health Information");
+        t7 = new JTextField(20);
+        p8.add(l7);
+        p8.add(t7);
+        
+        l8 = new JLabel("Medical Condition");
+        t8 = new JTextField(20);
+        p8.add(l8);
+        p8.add(t8);
+
+
+        b14 = new JButton("Back");
+        b14.addActionListener(this);
+        p8.add(b14);
+
+        b15 = new JButton("Submit");
+        b15.addActionListener(this);
+        p8.add(b15);
+
+        jf8.add(p8);
+        jf8.setSize(240, 550);
+        jf8.setLocation(580, 100);
+        jf8.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf8.setVisible(false);
+    }
+
+    void ViewPatientRecords() {
+        jf9 = new JFrame("Patient Details");
+        p9 = new JPanel();
+        jt1 = new JTable();
+        p9.add(new JScrollPane(jt1));
+
+        jf9.add(p9);
+        jf9.setSize(550, 500);
+        jf9.setLocation(450, 100);
+        jf9.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf9.setVisible(false);
+    }
+
+    void Appointment_Scheduling() {
+        jf3 = new JFrame("Appointment Scheduling");
+        p3 = new JPanel();
+        b7 = new JButton("Back");
+        b7.addActionListener(this);
+         b16 = new JButton("Book Appointment");
+        b16.addActionListener(this);
+         b17 = new JButton("Appointment Details");
+        b17.addActionListener(this);
+        p3.add(b16);
+        p3.add(b17);
+        ImageIcon i2 = new ImageIcon(ClassLoader.getSystemResource("img/img1.png"));
+        JLabel image1 = new JLabel(i2);
+        p3.add(image1);
+        p3.add(b7);
+
+        jf3.add(p3);
+        jf3.setSize(500, 650);
+        jf3.setLocation(500, 60);
+        jf3.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf3.setVisible(false);
+    }
+    
+    void Appointment_Details() {
+        jf11 = new JFrame("Appointment Details");
+        p11 = new JPanel();
+        jt2 = new JTable();
+        p11.add(new JScrollPane(jt2));
+
+        jf11.add(p11);
+        jf11.setSize(700, 500);
+        jf11.setLocation(350, 150);
+        jf11.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf11.setVisible(false);
+    }
+
+    void Book_Appointment() {
+        jf10 = new JFrame("Book Appointment");
+        p10 = new JPanel();
+        
+        l11 = new JLabel("Doctor");
+        t11 = new JTextField(20);
+        p10.add(l11);
+        p10.add(t11);
+        
+        l12 = new JLabel("visit type");
+        t12 = new JTextField(20);
+        p10.add(l12);
+        p10.add(t12);
+        
+        l13 = new JLabel("Date");
+        t13 = new JTextField(20);
+        p10.add(l13);
+        p10.add(t13);
+        
+        l14 = new JLabel("Time");
+        t14 = new JTextField(20);
+        p10.add(l14);
+        p10.add(t14);
+        
+        l15 = new JLabel("Status");
+        t15 = new JTextField(20);
+        p10.add(l15);
+        p10.add(t15);
+        
+        b18 = new JButton("Back");
+        b18.addActionListener(this);
+        p10.add(b18);
+
+        b19 = new JButton("Submit");
+        b19.addActionListener(this);
+        p10.add(b19);
+
+        jf10.add(p10);
+        jf10.setSize(250, 350);
+        jf10.setLocation(600, 200);
+        jf10.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf10.setVisible(false);
+    }
+
+    void Prescription() {
+        jf4 = new JFrame("Prescription");
+        p4 = new JPanel();
+        
+        b20 = new JButton("New Prescription");
+        b20.addActionListener(this);
+        p4.add(b20);
+        
+        b21 = new JButton("View Prescription");
+        b21.addActionListener(this);
+        p4.add(b21);
+        
+        ImageIcon i3 = new ImageIcon(ClassLoader.getSystemResource("img/img3.jpg"));
+        JLabel image2 = new JLabel(i3);
+        p4.add(image2);
+
+        b8 = new JButton("Back");
+        b8.addActionListener(this);
+        p4.add(b8);
+
+        jf4.add(p4);
+        jf4.setSize(650, 550);
+        jf4.setLocation(450, 100);
+        jf4.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf4.setVisible(false);
+    }
+    
+     void View_Prescription() {
+        jf13 = new JFrame("View Prescription");
+        p13 = new JPanel();
+        jt3 = new JTable();
+        p13.add(new JScrollPane(jt3));
+
+        jf13.add(p13);
+        jf13.setSize(550, 500);
+        jf13.setLocation(450, 100);
+        jf13.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf13.setVisible(false);
+    }
+    
+    void new_Prescription() {
+        jf12 = new JFrame("New Prescription");
+        p12 = new JPanel();
+        
+        l16 = new JLabel("Name");
+        t16 = new JTextField(20);
+        p12.add(l16);
+        p12.add(t16);
+        
+        l17 = new JLabel("Date");
+        t17 = new JTextField(20);
+        p12.add(l17);
+        p12.add(t17);
+        
+        l18 = new JLabel("Prescribed Medications ");
+        l19 = new JLabel("Medication Name");
+        t18 = new JTextField(20);
+        p12.add(l18);
+        p12.add(l19);
+        p12.add(t18);
+        
+        l20 = new JLabel("Dosage");
+        t19 = new JTextField(20);
+        p12.add(l20);
+        p12.add(t19);
+        
+        l21 = new JLabel("Frequency");
+        t20 = new JTextField(20);
+        p12.add(l21);
+        p12.add(t20);
+        
+        b26 = new JButton("Back");
+        b26.addActionListener(this);
+        p12.add(b26);
+
+        b27 = new JButton("Submit");
+        b27.addActionListener(this);
+        p12.add(b27);
+
+        jf12.add(p12);
+        jf12.setSize(250, 350);
+        jf12.setLocation(600, 200);
+        jf12.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf12.setVisible(false);
+    }
+
+    void Billing() {
+        jf5 = new JFrame("Billing");
+        p5 = new JPanel();
+        
+        b22 = new JButton("New Bill");
+        b22.addActionListener(this);
+        p5.add(b22);
+        
+        b23 = new JButton("Bill Details");
+        b23.addActionListener(this);
+        p5.add(b23);
+        
+        ImageIcon i4 = new ImageIcon(ClassLoader.getSystemResource("img/img4.png"));
+        JLabel image3 = new JLabel(i4);
+        p5.add(image3);
+
+        b9 = new JButton("Back");
+        b9.addActionListener(this);
+        p5.add(b9);
+
+        jf5.add(p5);
+        jf5.setSize(500, 580);
+        jf5.setLocation(500, 100);
+        jf5.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf5.setVisible(false);
+    }
+    
+    void new_bill() {
+        jf14 = new JFrame("New Bill");
+        p14 = new JPanel();
+        
+        l22=new JLabel("Bill no.");
+        t21=new JTextField(20);
+        p14.add(l22);
+        p14.add(t21);
+        
+        l23=new JLabel("Date");
+        t22=new JTextField(20);
+        p14.add(l23);
+        p14.add(t22);
+        
+        l24=new JLabel("From");
+        t23=new JTextField(20);
+        p14.add(l24);
+        p14.add(t23);
+        
+        l25=new JLabel("To");
+        t24=new JTextField(20);
+        p14.add(l25);
+        p14.add(t24);
+        
+        l26=new JLabel("Description");
+        t25=new JTextField(20);
+        p14.add(l26);
+        p14.add(t25);
+        
+        l27=new JLabel("Qty");
+        t26=new JTextField(20);
+        p14.add(l27);
+        p14.add(t26);
+        
+        l28=new JLabel("Amount");
+        t27=new JTextField(20);
+        p14.add(l28);
+        p14.add(t27);
+        
+        l29=new JLabel("Total Amount");
+        t28=new JTextField(20);
+        p14.add(l29);
+        p14.add(t28);
+        
+        
+        b28 = new JButton("Back");
+        b28.addActionListener(this);
+        p14.add(b28);
+
+        b29 = new JButton("Submit");
+        b29.addActionListener(this);
+        p14.add(b29);
+        
+        jf14.add(p14);
+        jf14.setSize(250, 550);
+        jf14.setLocation(600, 100);
+        jf14.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf14.setVisible(false);
+    }
+    
+     void view_bill() {
+        jf15 = new JFrame("View Bill");
+        p15 = new JPanel();
+        jt4 = new JTable();
+        p15.add(new JScrollPane(jt4));
+
+        jf15.add(p15);
+        jf15.setSize(550, 500);
+        jf15.setLocation(450, 100);
+        jf15.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf15.setVisible(false);
+    }
+
+    void Inventory() {
+        jf6 = new JFrame("Inventory");
+        p6 = new JPanel();
+        
+        b24 = new JButton("Add Item");
+        b24.addActionListener(this);
+        p6.add(b24);
+        
+        b25 = new JButton("View Items");
+        b25.addActionListener(this);
+        p6.add(b25);
+        
+        ImageIcon i5 = new ImageIcon(ClassLoader.getSystemResource("img/img5.jpg"));
+        JLabel image4 = new JLabel(i5);
+        p6.add(image4);
+
+        b10 = new JButton("Back");
+        b10.addActionListener(this);
+        p6.add(b10);
+
+        jf6.add(p6);
+        jf6.setSize(600, 550);
+        jf6.setLocation(500, 100);
+        jf6.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf6.setVisible(false);
+    }
+
+    void View_Records() {
+        jf7 = new JFrame("View Patient Records");
+        p7 = new JPanel();
+
+        b13 = new JButton("Back");
+        b13.addActionListener(this);
+        p7.add(b13);
+
+        jf7.add(p7);
+        jf7.setSize(500, 400);
+        jf7.setLocation(300, 200);
+        jf7.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jf7.setVisible(false);
+    }
+
+   
+
+    public static void main(String[] args) {
+        Hospital_management obj = new Hospital_management();
+        obj.home();
+        obj.Patient_Records();
+        obj.Appointment_Scheduling();
+        obj.Prescription();
+        obj.Billing();
+        obj.Inventory();
+        obj.View_Records();
+        obj.Add_Records();
+        obj.ViewPatientRecords();
+        obj.Book_Appointment();
+        obj.Appointment_Details();
+        obj.new_Prescription();
+        obj.View_Prescription();
+        obj.new_bill();
+        obj.view_bill();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == b1) {
+            jf1.setVisible(false);
+            jf2.setVisible(true);
+        }
+        if (e.getSource() == b2) {
+            jf1.setVisible(false);
+            jf3.setVisible(true);
+        }
+        if (e.getSource() == b3) {
+            jf1.setVisible(false);
+            jf4.setVisible(true);
+        }
+        if (e.getSource() == b4) {
+            jf1.setVisible(false);
+            jf5.setVisible(true);
+        }
+        if (e.getSource() == b5) {
+            jf1.setVisible(false);
+            jf6.setVisible(true);
+        }
+        if (e.getSource() == b6) {
+            jf1.setVisible(true);
+            jf2.setVisible(false);
+        }
+        if (e.getSource() == b7) {
+            jf1.setVisible(true);
+            jf3.setVisible(false);
+        }
+        if (e.getSource() == b8) {
+            jf1.setVisible(true);
+            jf4.setVisible(false);
+        }
+        if (e.getSource() == b9) {
+            jf1.setVisible(true);
+            jf5.setVisible(false);
+        }
+        if (e.getSource() == b10) {
+            jf1.setVisible(true);
+            jf6.setVisible(false);
+        }
+        if (e.getSource() == b11) {
+            jf9.setVisible(true);
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                dbcon = DriverManager.getConnection("jdbc:mysql://localhost/hospital_record", "root", "root");
+                stmt = dbcon.createStatement();
+                query = "SELECT * FROM Patient_Records";
+                rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    String fname = rs.getString("fname");
+                    String lname = rs.getString("lname");
+                    String address = rs.getString("address");
+                    String dob = rs.getString("dob");
+                    String phone = rs.getString("phone");
+                   
+                    String healthinfo = rs.getString("healthinfo");
+                    
+                    model.addRow(new Object[]{fname, lname, address, dob, phone, healthinfo});
+                }
+                jt1.setModel(model);
+            } catch (Exception a) {
+                a.printStackTrace();
+            } finally {
+                try {
+                    if (rs != null) rs.close();
+                    if (stmt != null) stmt.close();
+                    if (dbcon != null) dbcon.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        if (e.getSource() == b12) {
+            jf8.setVisible(true);
+            jf2.setVisible(false);
+        }
+        if (e.getSource() == b13) {
+            jf2.setVisible(true);
+            jf8.setVisible(false);
+        }
+        if (e.getSource() == b14) {
+            jf2.setVisible(true);
+            jf8.setVisible(false);
+        }
+        if (e.getSource() == b15) {
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                dbcon = DriverManager.getConnection("jdbc:mysql://localhost/hospital_record", "root", "root");
+                stmt = dbcon.createStatement();
+                query = "INSERT INTO Patient_Records(fname, lname, address, dob, phone, bgroup, healthinfo, medicalcond) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement pstmt = dbcon.prepareStatement(query);
+                pstmt.setString(1, t1.getText());
+                pstmt.setString(2, t2.getText());
+                pstmt.setString(3, ta1.getText());
+                pstmt.setString(4, t4.getText());
+                pstmt.setString(5, t5.getText());
+                pstmt.setString(6, t6.getText());
+                pstmt.setString(7, t7.getText());
+                pstmt.setString(8, t8.getText());
+                pstmt.executeUpdate();
+                JOptionPane.showMessageDialog(p1,"Submitted");
+            } catch (Exception a) {
+                a.printStackTrace();
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                    if (dbcon != null) dbcon.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        if (e.getSource() == b16) {
+            jf10.setVisible(true);
+            jf3.setVisible(false);
+        }
+         if (e.getSource() == b17) {
+            jf11.setVisible(true);
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                dbcon = DriverManager.getConnection("jdbc:mysql://localhost/hospital_record", "root", "root");
+                stmt = dbcon.createStatement();
+                query = "SELECT * FROM Appoinment";
+                rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    String doctor = rs.getString("doctor");
+                    String type = rs.getString("type");
+                    String date = rs.getString("date");
+                    String time = rs.getString("time");
+                    String status = rs.getString("status");
+
+                    model1.addRow(new Object[]{doctor, type, date, time, status});
+                }
+                jt2.setModel(model1);
+            } catch (Exception a) {
+                a.printStackTrace();
+            } finally {
+                try {
+                    if (rs != null) rs.close();
+                    if (stmt != null) stmt.close();
+                    if (dbcon != null) dbcon.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            jf2.setVisible(false);
+        }
+             if (e.getSource() == b19) {
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                dbcon = DriverManager.getConnection("jdbc:mysql://localhost/hospital_record", "root", "root");
+                stmt = dbcon.createStatement();
+                query = "INSERT INTO Appoinment (doctor, type, date, time, status) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement pstmt = dbcon.prepareStatement(query);
+                pstmt.setString(1, t11.getText());
+                pstmt.setString(2, t12.getText());
+                pstmt.setString(3, t13.getText());
+                pstmt.setString(4, t14.getText());
+                pstmt.setString(5, t15.getText());
+
+                pstmt.executeUpdate();
+                JOptionPane.showMessageDialog(p1, "Submitted");
+            } catch (Exception a) {
+                a.printStackTrace();
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                    if (dbcon != null) dbcon.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+             if (e.getSource() == b18) {
+            jf3.setVisible(true);
+            jf10.setVisible(false);
+        }
+             if (e.getSource() == b20) {
+            jf4.setVisible(false);
+            jf12.setVisible(true);
+        }
+             if (e.getSource() == b26) {
+            jf12.setVisible(false);
+            jf4.setVisible(true);
+        }
+             if (e.getSource() == b27) {
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                dbcon = DriverManager.getConnection("jdbc:mysql://localhost/hospital_record", "root", "root");
+                stmt = dbcon.createStatement();
+                query = "INSERT INTO Prescription (name, date, medicine, dose, freq) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement pstmt = dbcon.prepareStatement(query);
+                pstmt.setString(1, t16.getText());
+                pstmt.setString(2, t17.getText());
+                pstmt.setString(3, t18.getText());
+                pstmt.setString(4, t19.getText());
+                pstmt.setString(5, t20.getText());
+
+                pstmt.executeUpdate();
+                JOptionPane.showMessageDialog(p1, "Submitted");
+            } catch (Exception a) {
+                a.printStackTrace();
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                    if (dbcon != null) dbcon.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+          if (e.getSource() == b21) {
+            jf13.setVisible(true);
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                dbcon = DriverManager.getConnection("jdbc:mysql://localhost/hospital_record", "root", "root");
+                stmt = dbcon.createStatement();
+                query = "SELECT * FROM Prescription";
+                rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    String date = rs.getString("date");
+                    String medicine = rs.getString("medicine");
+                    String dose = rs.getString("dose");
+                    String freq = rs.getString("freq");
+
+                    model2.addRow(new Object[]{name, date, medicine, dose, freq});
+                }
+                jt3.setModel(model2);
+            } catch (Exception a) {
+                a.printStackTrace();
+            } finally {
+                try {
+                    if (rs != null) rs.close();
+                    if (stmt != null) stmt.close();
+                    if (dbcon != null) dbcon.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            jf2.setVisible(false);
+        }
+           if (e.getSource() == b22) {
+            jf5.setVisible(false);
+            jf14.setVisible(true);
+        }
+           if (e.getSource() == b28) {
+            jf14.setVisible(false);
+            jf5.setVisible(true);
+        }
+         if (e.getSource() == b29) {
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                dbcon = DriverManager.getConnection("jdbc:mysql://localhost/hospital_record", "root", "root");
+                stmt = dbcon.createStatement();
+                query = "INSERT INTO bill (billno, bill_date,billfrom, billto, des, qty,amount,total) VALUES (?,?, ?, ?, ?, ?,?,?)";
+                PreparedStatement pstmt = dbcon.prepareStatement(query);
+                pstmt.setString(1, t21.getText());
+                pstmt.setString(2, t22.getText());
+                pstmt.setString(3, t23.getText());
+                pstmt.setString(4, t24.getText());
+                pstmt.setString(5, t25.getText());
+                pstmt.setString(6, t26.getText());
+                pstmt.setString(7, t27.getText());
+                pstmt.setString(8, t28.getText());
+
+                pstmt.executeUpdate();
+                JOptionPane.showMessageDialog(p1, "Submitted");
+            } catch (Exception a) {
+                a.printStackTrace();
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                    if (dbcon != null) dbcon.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+         if (e.getSource() == b23) {
+            jf15.setVisible(true);
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                dbcon = DriverManager.getConnection("jdbc:mysql://localhost/hospital_record", "root", "root");
+                stmt = dbcon.createStatement();
+                query = "SELECT * FROM bill";
+                rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    String billno = rs.getString("billno");
+                    String bill_date = rs.getString("bill_date");
+                    String billto = rs.getString("billto");
+                    String des = rs.getString("des");
+                    String qty = rs.getString("qty");
+                    String total = rs.getString("total");
+
+                    model3.addRow(new Object[]{billno, bill_date, billto, des, qty,total});
+                }
+                jt4.setModel(model3);
+            } catch (Exception a) {
+                a.printStackTrace();
+            } finally {
+                try {
+                    if (rs != null) rs.close();
+                    if (stmt != null) stmt.close();
+                    if (dbcon != null) dbcon.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            jf2.setVisible(false);
+        }
+        }
+    }
