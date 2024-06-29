@@ -1,0 +1,13 @@
+mysql> create database hospital_record;
+
+mysql> use  hospital_record;
+
+mysql> create table Patient_Records(fname varchar(20),lname varchar(20),address varchar(50),dob varchar(20),phone int(10),
+bgroup varchar(10),healthinfo varchar(50),medicalcond varchar(50));
+
+mysql> create table Appoinment(doctor varchar(20),type varchar(20),date varchar(20),time varchar(20),status varchar(20));
+
+mysql> create table Prescription(name varchar(20),date varchar(20),medicine varchar(20),dose varchar(20),freq varchar(20));
+
+mysql> CREATE TABLE bill ( billno INT,bill_date VARCHAR(20),billfrom VARCHAR(20), billto VARCHAR(20),des VARCHAR(20),qty INT,
+amount INT,total INT);
